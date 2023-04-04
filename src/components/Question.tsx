@@ -30,6 +30,11 @@ export function Question({
             color={
               displayCorrectAnswer && isSame(index, value.answer)
                 ? 'green'
+                : displayCorrectAnswer &&
+                  !isSame(index, value.answer) &&
+                  ((p1Answer && isSame(index, p1Answer)) ||
+                    (p2Answer && isSame(index, p2Answer)))
+                ? 'red'
                 : 'default'
             }
             state={

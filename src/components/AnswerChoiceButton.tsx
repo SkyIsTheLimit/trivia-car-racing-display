@@ -2,7 +2,7 @@ import { HTMLAttributes, ReactNode } from 'react';
 
 export interface AnswerChoiceButton {
   option?: string;
-  color?: 'default' | 'green';
+  color?: 'default' | 'green' | 'red';
   state?: 'default' | 'pressed';
   player1?: ReactNode;
   player2?: ReactNode;
@@ -30,10 +30,19 @@ export function AnswerChoiceButton({
       className={`px-6 py-1 text-2xl rounded-full border-[4px] relative ${
         flash ? 'animate__animated animate__heartBeat animate__infinite' : ''
       } ${
-        (color || 'default') === 'default' ? 'bg-fuchsia-700' : 'bg-green-700'
+        (color || 'default') === 'default'
+          ? 'bg-fuchsia-700'
+          : color === 'green'
+          ? 'bg-green-700'
+          : 'bg-red-700'
       } ${className || ''}`}
       style={{
-        borderColor: (color || 'default') === 'default' ? '#D946EF' : '#22C55E',
+        borderColor:
+          (color || 'default') === 'default'
+            ? '#D946EF'
+            : (color || 'default') === 'green'
+            ? '#22C55E'
+            : '#ef4444',
         boxShadow:
           (state || 'default') === 'default'
             ? `inset 16px 16px 16px rgba(200, 200, 200, 0.2), inset -16px -8px 16px rgba(0, 0, 0, 0.25)`
