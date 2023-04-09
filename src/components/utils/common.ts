@@ -5,14 +5,26 @@ export function isSame(index: number, answerChoice: string) {
 export function createPoller<T>(
   fn: () => Promise<T>,
   callback: (value: T) => void,
-  timeout = 500
+  timeout = 1000
 ) {
-  return function poller() {
-    fn()
+  let isCancelled = false;
+
+  function cancel() {
+    isCancelled = true;
+  }
+  function poller(): Promise<void> {
+    isCancelled = false;
+
+    return fn()
       .then((value) => {
         callback(value);
       })
       .catch((error) => console.error(error))
-      .finally(() => setTimeout(poller, timeout));
+      .finally(() => !isCancelled && setTimeout(poller, timeout));
+  }
+
+  return {
+    poller,
+    cancel,
   };
 }

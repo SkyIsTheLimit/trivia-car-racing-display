@@ -8,6 +8,9 @@ import { MenuScreen } from '@/screens/MenuScreen';
 import { SplashScreen } from '@/screens/SplashScreen';
 import { InGameScreen } from '@/screens/InGameScreen';
 import { WinnerScreen } from '@/screens/WinnerScreen';
+import { AudioContextManager } from '@/components/AudioContextManager';
+import { useAudio } from '@/components/context/audio';
+import { Audio } from '@/components/Audio';
 
 const font = Concert_One({ weight: '400', subsets: ['latin'] });
 
@@ -26,11 +29,15 @@ export default function Home() {
     },
     winner: 'no-winner',
   });
-
+  const { isReady } = useAudio();
   const { start, getData } = api();
 
   useEffect(() => {
-    start().then(createPoller(() => getData(), setGame, 500));
+    const { poller, cancel } = createPoller(() => getData(), setGame, 500);
+
+    start().then(poller);
+
+    return () => cancel();
   }, []);
 
   return (
@@ -43,8 +50,14 @@ export default function Home() {
       </Head>
 
       <main
-        className={`w-[100vw] h-[100vh] flex items-center justify-center ${font.className}`}
+        className={`relative w-[100vw] h-[100vh] flex items-center justify-center ${font.className}`}
       >
+        <AudioContextManager />
+
+        {isReady && (
+          <Audio file='/audio/kids-morning-full.wav' play={true} volume={0.3} />
+        )}
+
         {game.state === 'pre-game' && game.menuScreen === 'splash-screen' && (
           <SplashScreen />
         )}

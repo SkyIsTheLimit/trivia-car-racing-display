@@ -1,6 +1,8 @@
 import { AnswerChoiceButton } from './AnswerChoiceButton';
+import { Audio } from './Audio';
 import { PlayerCharacter } from './PlayerCharacter';
 import { QuestionText } from './QuestionText';
+import { useAudio } from './context/audio';
 import { isSame } from './utils/common';
 import { Question } from './utils/types';
 
@@ -17,8 +19,24 @@ export function Question({
   p2Answer,
   displayCorrectAnswer,
 }: QuestionParams) {
+  const { isReady } = useAudio();
+
   return (
     <div className='relative z-10 flex flex-col w-3/4 mx-auto my-auto'>
+      {isReady && (
+        <Audio
+          file='/audio/mixkit-christmas-reveal-tones-2988.wav'
+          play={true}
+        />
+      )}
+
+      {isReady && displayCorrectAnswer && (
+        <Audio
+          file='/audio/mixkit-cartoon-positive-sound-2255.wav'
+          play={true}
+        />
+      )}
+
       <QuestionText text={value.text} />
 
       <div className='grid grid-cols-2 grid-rows-2 gap-x-16 gap-y-4'>
@@ -54,6 +72,7 @@ export function Question({
                   style={{
                     transform: 'scaleX(-1)',
                   }}
+                  playSound={true}
                 />
               )
             }
@@ -65,6 +84,7 @@ export function Question({
                   width={50}
                   className='-bottom-1 -right-6'
                   isShaking={true}
+                  playSound={true}
                 />
               )
             }

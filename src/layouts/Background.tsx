@@ -1,5 +1,29 @@
 import { HTMLAttributes } from 'react';
 
+export interface BubbleProps {
+  size: number;
+}
+
+export function Bubble({
+  size,
+  className,
+}: BubbleProps & HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div
+      className={`absolute rounded-[100%] ${className || ''}`}
+      style={{
+        position: 'absolute',
+        width: `${size}vw`,
+        height: `${size}vw`,
+        borderRadius: '100%',
+
+        background: 'rgba(0, 0, 0, 0.25)',
+        backdropFilter: 'blur(8px)',
+      }}
+    ></div>
+  );
+}
+
 export function Background({ children }: HTMLAttributes<HTMLDivElement>) {
   return (
     <>
@@ -11,45 +35,9 @@ export function Background({ children }: HTMLAttributes<HTMLDivElement>) {
       ></div>
       <div className='absolute w-[97vw] rounded-[2rem] h-[95vh] m-4 border-indigo-600 border-[1rem] bg-indigo-900/25 z-0'></div>
 
-      <div
-        style={{
-          position: 'absolute',
-          width: '30vw',
-          height: '30vw',
-          borderRadius: '100%',
-          left: '60%',
-          top: '20%',
-
-          background: 'rgba(0, 0, 0, 0.25)',
-          backdropFilter: 'blur(8px)',
-        }}
-      ></div>
-      <div
-        style={{
-          position: 'absolute',
-          width: '20vw',
-          height: '20vw',
-          borderRadius: '100%',
-          left: '22%',
-          top: '35%',
-
-          background: 'rgba(0, 0, 0, 0.25)',
-          backdropFilter: 'blur(8px)',
-        }}
-      ></div>
-      <div
-        style={{
-          position: 'absolute',
-          width: '23vw',
-          height: '23vw',
-          borderRadius: '100%',
-          left: '8%',
-          top: '5%',
-
-          background: 'rgba(0, 0, 0, 0.25)',
-          backdropFilter: 'blur(8px)',
-        }}
-      ></div>
+      <Bubble size={30} className='left-[60%] top-[20%]' />
+      <Bubble size={20} className='left-[22%] top-[35%]' />
+      <Bubble size={23} className='left-[8%] top-[5%]' />
 
       {children}
     </>
