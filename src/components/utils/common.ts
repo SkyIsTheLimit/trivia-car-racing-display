@@ -8,9 +8,11 @@ export function createPoller<T>(
   timeout = 500
 ) {
   return function poller() {
-    fn().then((value) => {
-      callback(value);
-      setTimeout(poller, timeout);
-    });
+    fn()
+      .then((value) => {
+        callback(value);
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setTimeout(poller, timeout));
   };
 }

@@ -1,17 +1,15 @@
 import { createApi } from '@prototypedjs/core';
-import { Game } from './types';
+import { GameState } from './types';
 
-const defaultGame: Game = {
-  state: 'not-started',
-  questionNo: 1,
+const defaultGame: GameState = {
+  state: 'pre-game',
   menu: {
-    title: 'Select Difficulty',
     options: ['Easy', 'Medium', 'Difficult'],
-    highlighted: 0,
+    selectedIndex: 0,
   },
-  rounds: [],
   currentRound: {
-    id: 1,
+    questionIndex: 0,
+    status: 'pre-question',
     question: {
       text: 'Who was the ancient Greek goddess of love?',
       choices: ['FooFoo Foo', 'Bar', 'Baz', 'Boo'],
@@ -20,10 +18,17 @@ const defaultGame: Game = {
     p1Answer: 'A',
     p2Answer: 'B',
   },
+  menuScreen: 'splash-screen',
+  lapCounts: {
+    player1: 0,
+    player2: 0,
+  },
+  difficulty: 'easy',
+  winner: 'no-winner',
 };
 
-const gameApi = createApi<Game>([defaultGame]);
-const backendPort = 3000;
+const gameApi = createApi<GameState>([defaultGame]);
+const backendPort = 10000;
 
 export function api(devMode = false) {
   function start() {
@@ -45,7 +50,7 @@ export function api(devMode = false) {
             0,
             location.origin.lastIndexOf(':')
           )}:${backendPort}/game`
-        ).then((res) => res.json() as unknown as Game);
+        ).then((res) => res.json() as unknown as GameState);
   }
 
   return { start, getData };

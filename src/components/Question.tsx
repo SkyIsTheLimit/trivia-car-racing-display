@@ -18,7 +18,7 @@ export function Question({
   displayCorrectAnswer,
 }: QuestionParams) {
   return (
-    <div className='z-10 flex flex-col w-3/4'>
+    <div className='relative z-10 flex flex-col w-3/4 mx-auto my-auto'>
       <QuestionText text={value.text} />
 
       <div className='grid grid-cols-2 grid-rows-2 gap-x-16 gap-y-4'>

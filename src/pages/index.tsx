@@ -3,22 +3,28 @@ import { useEffect, useState } from 'react';
 import { Concert_One } from 'next/font/google';
 import { api } from '@/components/utils/api';
 import { createPoller } from '@/components/utils/common';
-import { GamePlay } from '@/components/Game';
-import { Menu } from '@/components/Menu';
-import { Game } from '@/components/utils/types';
+import { GameState } from '@/components/utils/types';
+import { MenuScreen } from '@/screens/MenuScreen';
+import { SplashScreen } from '@/screens/SplashScreen';
+import { InGameScreen } from '@/screens/InGameScreen';
+import { WinnerScreen } from '@/screens/WinnerScreen';
 
 const font = Concert_One({ weight: '400', subsets: ['latin'] });
 
 export default function Home() {
-  const [game, setGame] = useState<Game>({
-    questionNo: -1,
-    state: 'not-started',
-    rounds: [],
+  const [game, setGame] = useState<GameState>({
+    state: 'pre-game',
+    menuScreen: 'splash-screen',
+    lapCounts: {
+      player1: 0,
+      player2: 0,
+    },
+    difficulty: 'easy',
     menu: {
-      title: '',
-      highlighted: 0,
+      selectedIndex: 0,
       options: [],
     },
+    winner: 'no-winner',
   });
 
   const { start, getData } = api();
@@ -37,10 +43,17 @@ export default function Home() {
       </Head>
 
       <main
-        className={`w-[100vw] h-[100vh] relative flex items-center justify-center ${font.className}`}
+        className={`w-[100vw] h-[100vh] flex items-center justify-center ${font.className}`}
       >
-        {game.state === 'not-started' && <Menu value={game.menu} />}
-        {game.state !== 'not-started' && <GamePlay game={game} />}
+        {game.state === 'pre-game' && game.menuScreen === 'splash-screen' && (
+          <SplashScreen />
+        )}
+        {game.state === 'pre-game' &&
+          game.menuScreen === 'difficulty-screen' && <MenuScreen game={game} />}
+
+        {game.state === 'in-game' && <InGameScreen game={game} />}
+
+        {game.state === 'post-game' && <WinnerScreen game={game} />}
       </main>
     </>
   );
