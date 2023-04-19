@@ -64,6 +64,8 @@ export default function Home() {
         {game.state === 'pre-game' &&
           game.menuScreen === 'difficulty-screen' && <MenuScreen game={game} />}
 
+        {game.state === 'pre-game' && game.difficulty && <h1>Press Start</h1>}
+
         {game.state === 'in-game' && <InGameScreen game={game} />}
 
         {game.state === 'post-game' && <WinnerScreen game={game} />}
