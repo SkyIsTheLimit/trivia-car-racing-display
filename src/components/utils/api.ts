@@ -25,6 +25,8 @@ const defaultGame: GameState = {
   },
   difficulty: 'easy',
   winner: 'no-winner',
+  startMenuOption: 0,
+  endMenuOption: 0,
 };
 
 const gameApi = createApi<GameState>([defaultGame]);

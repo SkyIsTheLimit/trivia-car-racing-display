@@ -41,7 +41,6 @@ export function MenuScreen({ game }: { game: GameState }) {
               state={
                 index === game.menu.selectedIndex - 1 ? 'pressed' : 'default'
               }
-              option=''
             >
               {option}
             </AnswerChoiceButton>

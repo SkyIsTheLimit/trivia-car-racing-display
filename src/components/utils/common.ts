@@ -12,15 +12,18 @@ export function createPoller<T>(
   function cancel() {
     isCancelled = true;
   }
+
   function poller(): Promise<void> {
     isCancelled = false;
 
-    return fn()
-      .then((value) => {
-        callback(value);
-      })
-      .catch((error) => console.error(error))
-      .finally(() => !isCancelled && setTimeout(poller, timeout));
+    return isCancelled
+      ? Promise.resolve()
+      : fn()
+          .then((value) => {
+            callback(value);
+          })
+          .catch((error) => console.error('An error occured, retrying.'))
+          .finally(() => !isCancelled && setTimeout(poller, timeout));
   }
 
   return {

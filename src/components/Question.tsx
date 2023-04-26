@@ -1,4 +1,5 @@
 import { AnswerChoiceButton } from './AnswerChoiceButton';
+import { AnswerChoiceButton2 } from './AnswerChoiceButton2';
 import { Audio } from './Audio';
 import { PlayerCharacter } from './PlayerCharacter';
 import { QuestionText } from './QuestionText';
@@ -22,7 +23,7 @@ export function Question({
   const { isReady } = useAudio();
 
   return (
-    <div className='relative z-10 flex flex-col w-3/4 mx-auto my-auto'>
+    <div className='relative z-10 flex flex-col w-[90%] mx-auto -mt-12 px-12'>
       {isReady && (
         <Audio
           file='/audio/mixkit-christmas-reveal-tones-2988.wav'
@@ -39,10 +40,13 @@ export function Question({
 
       <QuestionText text={value.text} />
 
-      <div className='grid grid-cols-2 grid-rows-2 gap-x-16 gap-y-4'>
+      <div className='grid grid-cols-2 grid-rows-2 gap-x-12 gap-y-4'>
         {value.choices.map((choice, index) => (
           <AnswerChoiceButton
             key={index}
+            style={{
+              fontSize: choice.length <= 16 ? '1.5rem' : '1.0rem',
+            }}
             option={String.fromCharCode(65 + index)}
             flash={displayCorrectAnswer && isSame(index, value.answer)}
             color={

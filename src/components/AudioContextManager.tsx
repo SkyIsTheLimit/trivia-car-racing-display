@@ -1,13 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { MutedIcon, UnmutedIcon } from './icons';
 import { useAudio } from './context/audio';
+import { start } from 'tone';
 
 export function AudioContextManager() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isReady, setIsPlaying] = useState(false);
   const { setIsReady } = useAudio();
 
-  function toggleAudio() {
+  async function toggleAudio() {
+    await start();
     setIsPlaying((isPlaying) => !isPlaying);
   }
 

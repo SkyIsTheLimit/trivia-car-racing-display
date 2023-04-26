@@ -33,4 +33,6 @@ export interface GameState {
   currentRound?: Round;
   menu: Menu;
   winner: Winner;
+  startMenuOption: number;
+  endMenuOption: number;
 }

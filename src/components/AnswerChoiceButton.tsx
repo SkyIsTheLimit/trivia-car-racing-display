@@ -18,6 +18,7 @@ export function AnswerChoiceButton({
   flash,
   className,
   children,
+  style,
   ...others
 }: AnswerChoiceButton & HTMLAttributes<HTMLDivElement>) {
   const players = [];
@@ -27,15 +28,18 @@ export function AnswerChoiceButton({
 
   return (
     <div
-      className={`px-6 py-1 text-2xl rounded-full border-[4px] relative ${
+      className={`px-6 py-1 rounded-full border-[4px] relative ${
         flash ? 'animate__animated animate__heartBeat animate__infinite' : ''
-      } ${
+      } 
+      ${
         (color || 'default') === 'default'
           ? 'bg-fuchsia-700'
           : color === 'green'
           ? 'bg-green-700'
           : 'bg-red-700'
-      } ${className || ''}`}
+      } 
+      
+      ${className || ''}`}
       style={{
         borderColor:
           (color || 'default') === 'default'
@@ -47,10 +51,13 @@ export function AnswerChoiceButton({
           (state || 'default') === 'default'
             ? `inset 16px 16px 16px rgba(200, 200, 200, 0.2), inset -16px -8px 16px rgba(0, 0, 0, 0.25)`
             : `inset -16px -16px 16px rgba(200, 200, 200, 0.2), inset 16px 8px 16px rgba(0, 0, 0, 0.25)`,
+        lineHeight: '2rem',
+        ...style,
       }}
       {...others}
     >
       {option && `(${option}) `}
+
       {children}
       {player1}
       {player2}
