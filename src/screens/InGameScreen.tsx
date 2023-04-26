@@ -2,6 +2,9 @@ import { PlayerCharacter } from '@/components/PlayerCharacter';
 import { Question } from '@/components/Question';
 import { Background } from '@/layouts/Background';
 import { GameState } from '@/components/utils/types';
+import { Press_Start_2P } from 'next/font/google';
+
+const font = Press_Start_2P({ weight: '400', subsets: ['latin'] });
 
 export function Loader() {
   return (
@@ -31,6 +34,12 @@ export function InGameScreen({ game }: { game: GameState }) {
   return (
     <Background>
       {game.currentRound?.status === 'pre-question' && <Loader />}
+      <h1
+        className={`fixed text-3xl text-yellow-300 -translate-x-1/2 font-light top-10 left-1/2 ${font.className}`}
+      >
+        {`${game.lapCounts.player1}`.padStart(2, '0')} -{' '}
+        {`${game.lapCounts.player2}`.padStart(2, '0')}
+      </h1>
 
       {game.currentRound?.status !== 'pre-question' && game.currentRound && (
         <Question
